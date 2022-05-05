@@ -1,0 +1,40 @@
+* {
+    margin: auto;
+}
+
+.col-12{
+    text-align: center;
+}
+body {
+    background-color: aquamarine;
+    height: 100vh;
+}
+
+.container {
+    height: 100vh;
+    background-color: aquamarine;
+
+}
+
+.col-12 .footer {
+    background-color: brown;
+}
+
+.col-4{
+    border: 1px solid black;
+    border-radius: 12px;
+    height: 40vh;
+    padding-top: 2vh;
+}
+.pi1{
+    height: 100px;
+    width: 100px;
+}
+.pi2{
+    height: 150px;
+    width: 150px;
+}
+.pi3{
+    height: 70px;
+    width: 70px;
+}
