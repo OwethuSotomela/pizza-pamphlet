@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Pizza-Pamphlet</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/app.js"></script>
+</head>
+<body>
+    <div class="container" x-data="data">
+        <div>
+            <h1>Perfect Pizza</h1>
+        </div>
+
+        <div class="cartTotal " >
+            <strong>Total price</strong>  
+            <span class="cartTotalPrice">0.00</span>
+            <a href="#">
+              <img src="shopping-cart.png" alt="">
+            </a>
+          </div>
+      
+      
+          <div class="cart" >
+            <h3>Shopping Cart</h3>
+            <img src="shopping-cart.png" alt="">
+      
+              <table>
+                <tr>
+                  <td><strong>Small pizzas total:</strong></td>
+                  <td><span class="smallTotalPrice" x-text="orders[0].subTotal()"></span></td>
+                  <button x-on:click="orders[0].add()">+</button>
+                  <button>-</button>
+                </tr>
+      
+                <tr>
+                  <td><strong>Medium pizzas total:</strong></td>
+                  <td><span class="mediumTotalPrice">0.00</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Large pizza total:</strong></td>
+                  <td><span class="largeTotalPrice">0.00</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Total price</strong></td>
+                  <td><span class="totalPrice">0.00</span></td>
+                </tr>
+              </table>
+          </div>
+
+
+        <div class="specials">
+            <template x-for="order in orders">
+                <div :class="order.size">
+                    <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
+                    alt="">
+                    <h2 x-text="order.name"></h2>
+                    <h3 x-text="order.price"></h3>
+                    <i x-text="order.description"></i>
+                </div>
+            </template>
+        </ul>
+    </div>
+</body>
+</html>
