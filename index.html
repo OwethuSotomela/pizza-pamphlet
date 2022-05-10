@@ -19,19 +19,11 @@
         </div>
 
         <!-- add cart  -->
-        <div class="cartTotal ">
-            <strong>Total price</strong>
-            <span class="cartTotalPrice">0.00</span>
-            <a href="#">
-                <img src="shopping-cart.png" alt="">
-            </a>
-        </div>
-
+   
         <div class="cart">
             <h3>Shopping Cart</h3>
             <img src="shopping-cart.png" alt="">
 
-            <!-- <template x-for="total in orders">  -->
             <table class="myCart">
                 <template x-for="order in orders">
                     <tr>
@@ -50,14 +42,11 @@
                     <td><span class="totalPrice" x-text="getTotal().toFixed(2)"></span></td>
                 </tr>
             </table>
-            <!-- </template> -->
-
         </div>
 
-        <!-- close it  -->
-        <div class="specials">
+        <!-- close cart  -->
 
-            <!-- my small again  -->
+        <div class="specials">
 
             <template x-for="order in orders">
                 <div :class="order.size">
@@ -70,201 +59,7 @@
                 </div>
             </template>
 
-            <!-- start small here  -->
-            <div x-data="small" class="small">
-
-                <!-- <template x-for="order in orders">
-                    <div :class="order.size">
-                        <img src="images/pi2.jpeg" alt="">
-                        <h2 x-text="order.name"></h2>
-                        <h3 x-text="order.price"></h3>
-                        <i x-text="order.description"></i>
-                    </div>
-                </template> -->
-
-                <!-- start here  -->
-                <div x-data="small">
-                    <button @click="open = !open">Place Order</button>
-
-                    <template x-teleport="#teleport">
-                        <div x-show="open">
-                            <table class="myCart">
-                                <caption><strong>Small Pizza</strong></caption>
-                                <tr>
-                                    <th>Qty</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-
-                                <template x-for="order in orders">
-                                    <tr>
-                                        <td x-text="order.qty"></td>
-                                        <td x-text="order.size"></td>
-                                        <td x-text="order.price"></td>
-                                        <td x-text="order.subTotal().toFixed(2)"></td>
-                                        <td>
-                                            <button class="butHey" @click="order.add()">+</button>
-
-                                        </td>
-                                    </tr>
-                                </template>
-
-                                <!-- <button class="butHey" @click="orders[0].add()">+</button> -->
-                                <!-- <button @click="orders[0].minus()">-</button> -->
-
-                            </table>
-                        </div>
-                    </template>
-                </div>
-                <!-- end here  -->
-            </div>
-
-            <!-- start small here  -->
-            <div x-data="small" class="small">
-
-                <template x-for="order in orders">
-                    <div :class="order.size">
-                        <img src="images/pi2.jpeg" alt="">
-                        <h2 x-text="order.name"></h2>
-                        <h3 x-text="order.price"></h3>
-                        <i x-text="order.description"></i>
-                    </div>
-                </template>
-
-                <!-- start here  -->
-                <div x-data="small">
-                    <button @click="open = !open">Place Order</button>
-
-                    <template x-teleport="#teleport">
-                        <div x-show="open">
-                            <table class="myCart">
-                                <caption><strong>Small Pizza</strong></caption>
-                                <tr>
-                                    <th>Qty</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-
-                                <template x-for="order in orders">
-                                    <tr>
-                                        <td x-text="order.qty"></td>
-                                        <td x-text="order.size"></td>
-                                        <td x-text="order.price"></td>
-                                        <td x-text="order.subTotal().toFixed(2)"></td>
-                                        <td>
-                                            <button class="butHey" @click="order.add()">+</button>
-
-                                        </td>
-                                    </tr>
-                                </template>
-
-                                <!-- <button class="butHey" @click="orders[0].add()">+</button> -->
-                                <!-- <button @click="orders[0].minus()">-</button> -->
-
-                            </table>
-                        </div>
-                    </template>
-                </div>
-                <!-- end here  -->
-            </div>
-
-            <!-- start medium here  -->
-            <div x-data="medium" class="medium">
-
-                <template x-for="order in orders">
-                    <div :class="order.size">
-                        <img src="images/pi2.jpeg" alt="">
-                        <h2 x-text="order.name"></h2>
-                        <h3 x-text="order.price"></h3>
-                        <i x-text="order.description"></i>
-                    </div>
-                </template>
-
-                <!-- start here  -->
-                <div x-data="medium">
-                    <button @click="open = !open">Place Order</button>
-
-                    <template x-teleport="#teleport">
-                        <div x-show="open">
-                            <table class="myCart">
-                                <caption><strong>Medium Pizza</strong></caption>
-                                <tr>
-                                    <th>Qty</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                                <template x-for="order in orders">
-                                    <tr>
-                                        <td x-text="order.qty"></td>
-                                        <td x-text="order.size"></td>
-                                        <td x-text="order.price"></td>
-                                        <td x-text="order.subTotal().toFixed(2)"></td>
-                                    </tr>
-                                </template>
-                                <button @click="orders[0].add()">+</button>
-                                <button @click="orders[0].minus()">-</button>
-
-                            </table>
-                        </div>
-                    </template>
-                </div>
-                <!-- end here  -->
-            </div>
-
-            <!-- start large here  -->
-            <div x-data="large" class="large">
-
-                <template x-for="order in orders">
-                    <div :class="order.size">
-                        <img src="images/pi2.jpeg" alt="">
-                        <h2 x-text="order.name"></h2>
-                        <h3 x-text="order.price"></h3>
-                        <i x-text="order.description"></i>
-                    </div>
-                </template>
-
-                <!-- start here  -->
-                <div x-data="large">
-                    <button @click="open = !open">Place Order</button>
-
-                    <template x-teleport="#teleport">
-                        <div x-show="open">
-                            <table class="myCart">
-                                <caption><strong>Large Pizza</strong></caption>
-                                <tr>
-                                    <th>Qty</th>
-                                    <th>Size</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                                <template x-for="order in orders">
-                                    <tr>
-                                        <td x-text="order.qty"></td>
-                                        <td x-text="order.size"></td>
-                                        <td x-text="order.price"></td>
-                                        <td x-text="order.subTotal().toFixed(2)"></td>
-                                    </tr>
-                                </template>
-
-                                <button @click="orders[0].add()">+</button>
-                                <button @click="orders[0].minus()">-</button>
-
-                            </table>
-                        </div>
-                    </template>
-                </div>
-                <!-- end here  -->
-            </div>
-
-
         </div>
-
-        <!-- add element  -->
-        <div class="myCart" id="teleport"></div>
-        <!-- close here  -->
 
         <div class="footer">
             <div class="contact">
