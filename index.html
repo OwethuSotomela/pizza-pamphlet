@@ -7,85 +7,105 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <title>Pizza-Pamphlet</title>
     <link rel="stylesheet" href="./css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
     <script src="./js/app.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <div>
+        <div class="col-12">
             <h1>Perfect Pizza</h1>
         </div>
 
         <!-- add cart  -->
-        <div class="cartTotal ">
+        <!-- <div class="cartTotal ">
             <strong>Total price</strong>
             <span class="cartTotalPrice">0.00</span>
             <a href="#">
                 <img src="shopping-cart.png" alt="">
             </a>
-        </div>
+        </div> -->
 
-        <div class="cart">
+        <!-- <div class="cart">
             <h3>Shopping Cart</h3>
-            <img src="shopping-cart.png" alt="">
+            <img src="shopping-cart.png" alt=""> -->
 
-            <table>
-                <tr>
-                    <td><strong>Small pizzas total:</strong></td>
-                    <td><span class="smallTotalPrice" x-text="orders[0].subTotal()"></span></td>
-                    <button x-on:click="orders[0].add()">+</button>
-                    <button>-</button>
-                </tr>
+            <!-- <template x-for="total in orders"> -->
+            <!-- <table class="myCart"> -->
+                <!-- <template x-data="small" x-for="total in orders">
+                    <tr>
+                        <td><strong>Small pizzas total:</strong></td>
+                        <td><span class="smallTotalPrice" x-text="orders[0].subTotal()"></span></td>
+                    </tr>
+                </template> -->
 
-                <tr>
-                    <td><strong>Medium pizzas total:</strong></td>
-                    <td><span class="mediumTotalPrice">0.00</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Large pizza total:</strong></td>
-                    <td><span class="largeTotalPrice">0.00</span></td>
-                </tr>
-                <tr>
+                <!-- here  -->
+                <!-- <template x-data="medium" x-for="total in orders">
+                    <tr>
+                        <td><strong>Medium pizzas total:</strong></td>
+                        <td><span class="mediumTotalPrice" x-text="orders[0].subTotal()"></span></td>
+                    </tr>
+                </template> -->
+                <!-- here  -->
+
+                <!-- here  -->
+                <!-- <template x-data="large" x-for="total in orders">
+                    <tr>
+                        <td><strong>Large pizza total:</strong></td>
+                        <td><span class="largeTotalPrice" x-text="orders[0].subTotal()"></span></td>
+                    </tr>
+                </template> -->
+                <!-- end  -->
+
+                <!-- <tr>
                     <td><strong>Total price</strong></td>
-                    <td><span class="totalPrice">0.00</span></td>
+                    <td><span class="totalPrice" x-text="orders[0].subTotal()"></span></td>
                 </tr>
-            </table>
-        </div>
+            </table> -->
+            <!-- </template> -->
+        <!-- </div> -->
 
         <!-- close it  -->
         <div class="specials">
 
+            <!-- start medium here  -->
             <div x-data="medium" class="medium">
 
                 <template x-for="order in orders">
                     <div :class="order.size">
-                        <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                            alt="">
+                        <img src="images/pi2.jpeg" alt="">
                         <h2 x-text="order.name"></h2>
                         <h3 x-text="order.price"></h3>
                         <i x-text="order.description"></i>
                     </div>
                 </template>
 
-                <!-- start medium here  -->
+                <!-- start here  -->
                 <div x-data="medium">
                     <button @click="open = !open">Place Order</button>
 
                     <template x-teleport="#teleport">
                         <div x-show="open">
                             <table class="myCart">
+                                <caption><strong>Medium Pizza</strong></caption>
                                 <tr>
-                                    <td>Qty</td>
-                                    <td>Size</td>
-                                    <td>Price</td>
+                                    <th>Qty</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
                                 </tr>
                                 <template x-for="order in orders">
                                     <tr>
                                         <td x-text="order.qty"></td>
                                         <td x-text="order.size"></td>
                                         <td x-text="order.price"></td>
+                                        <td x-text="order.subTotal().toFixed(2)"></td>
                                     </tr>
                                 </template>
+                                <button @click="orders[0].add()">+</button>
+                                <button @click="orders[0].minus()">-</button>
+
                             </table>
                         </div>
                     </template>
@@ -98,8 +118,7 @@
 
                 <template x-for="order in orders">
                     <div :class="order.size">
-                        <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                            alt="">
+                        <img src="images/pi2.jpeg" alt="">
                         <h2 x-text="order.name"></h2>
                         <h3 x-text="order.price"></h3>
                         <i x-text="order.description"></i>
@@ -113,18 +132,25 @@
                     <template x-teleport="#teleport">
                         <div x-show="open">
                             <table class="myCart">
+                                <caption><strong>Large Pizza</strong></caption>
                                 <tr>
-                                    <td>Qty</td>
-                                    <td>Size</td>
-                                    <td>Price</td>
+                                    <th>Qty</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
                                 </tr>
                                 <template x-for="order in orders">
                                     <tr>
                                         <td x-text="order.qty"></td>
                                         <td x-text="order.size"></td>
                                         <td x-text="order.price"></td>
+                                        <td x-text="order.subTotal().toFixed(2)"></td>
                                     </tr>
                                 </template>
+
+                                <button @click="orders[0].add()">+</button>
+                                <button @click="orders[0].minus()">-</button>
+
                             </table>
                         </div>
                     </template>
@@ -137,8 +163,7 @@
 
                 <template x-for="order in orders">
                     <div :class="order.size">
-                        <img src="https://image.shutterstock.com/image-vector/italian-pizza-tomato-sausage-olive-600w-554691619.jpg"
-                            alt="">
+                        <img src="images/pi2.jpeg" alt="">
                         <h2 x-text="order.name"></h2>
                         <h3 x-text="order.price"></h3>
                         <i x-text="order.description"></i>
@@ -152,18 +177,24 @@
                     <template x-teleport="#teleport">
                         <div x-show="open">
                             <table class="myCart">
+                                <caption><strong>Small Pizza</strong></caption>
                                 <tr>
-                                    <td>Qty</td>
-                                    <td>Size</td>
-                                    <td>Price</td>
+                                    <th>Qty</th>
+                                    <th>Size</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
                                 </tr>
                                 <template x-for="order in orders">
                                     <tr>
                                         <td x-text="order.qty"></td>
                                         <td x-text="order.size"></td>
                                         <td x-text="order.price"></td>
+                                        <td x-text="order.subTotal().toFixed(2)"></td>
                                     </tr>
                                 </template>
+                                <button @click="orders[0].add()">+</button>
+                                <button @click="orders[0].minus()">-</button>
+
                             </table>
                         </div>
                     </template>
@@ -197,4 +228,3 @@
 </body>
 
 </html>
-

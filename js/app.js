@@ -1,5 +1,5 @@
-document.addEventListener('alpine:init', ()=>{
-    Alpine.data('small', ()=>{
+document.addEventListener('alpine:init', () => {
+    Alpine.data('small', () => {
         return {
             init() {
                 console.log(this.orders[0].subTotal())
@@ -17,18 +17,21 @@ document.addEventListener('alpine:init', ()=>{
                     },
                     add() {
                         this.qty++
+                    },
+                    minus() {
+                        this.qty--
                     }
-                }, 
+                },
             ],
-            getOrder(){
+            getOrder() {
 
             }
         }
     })
 })
 
-document.addEventListener('alpine:init', ()=>{
-    Alpine.data('medium', ()=>{
+document.addEventListener('alpine:init', () => {
+    Alpine.data('medium', () => {
         return {
             init() {
                 console.log(this.orders[0].subTotal())
@@ -46,18 +49,21 @@ document.addEventListener('alpine:init', ()=>{
                     },
                     add() {
                         this.qty++
+                    },
+                    minus() {
+                        this.qty--
                     }
-                }, 
+                },
             ],
-            getOrder(){
+            getOrder() {
 
             }
         }
     })
 })
 
-document.addEventListener('alpine:init', ()=>{
-    Alpine.data('large', ()=>{
+document.addEventListener('alpine:init', () => {
+    Alpine.data('large', () => {
         return {
             init() {
                 console.log(this.orders[0].subTotal())
@@ -75,10 +81,13 @@ document.addEventListener('alpine:init', ()=>{
                     },
                     add() {
                         this.qty++
+                    },
+                    minus() {
+                        this.qty--
                     }
-                }, 
+                },
             ],
-            getOrder(){
+            getOrder() {
 
             }
         }

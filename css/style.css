@@ -1,21 +1,30 @@
 body {
     background: white;
     font-family: arial, sans-serif;
-    background-color: #3FA9E2;
+    background-color: #8CBDB9;
     font-size: 0.75em;
 }
 
+h1 {
+    color: #f2f2f2;
+    /* border: 2px solid #E09E50; */
+}
+
 .small {
-    background-color: #E03571;
+    background-color: white;
+    border: 5px solid #2D3E4E;
 
 }
 
 .medium {
-    background-color: #E2AE3D;
+    background-color: white;
+    border: 5px solid #2D3E4E;
+
 }
 
 .large {
-    background-color: #E06733;
+    background-color: white;
+    border: 5px solid #2D3E4E;
     flex: 2;
 }
 
@@ -30,29 +39,29 @@ body {
 }
 
 .small img {
-    width: 4em;
+    width: 7em;
 }
 
 .medium img {
-    width: 5em;
+    width: 9em;
 }
 
 .large img {
-    width: 7em;
+    width: 11em;
 
 }
 
 .footer {
     display: flex;
+    border: 5px solid #2D3E4E;
+    border-radius: 15px;
 }
 
 .footer div {
     flex: 1;
-    /*   border: 1px solid;
-     */
-    margin-top: 1em;
+    /* margin-top: 1em; */
     padding: 1em;
-    background-color: #CDD93F;
+    background-color: white;
 }
 
 
@@ -95,5 +104,26 @@ body {
     padding-bottom: 12px;
     text-align: left;
     background-color: #04AA6D;
+    color: white;
+}
+
+button {
+    background-color: #17252A;
+    color: white;
+    padding: 9px 15px;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 5vh;
+}
+
+.col-12 {
+    text-align: center;
+}
+
+caption{
+    border: 2px solid #E09E50;
+    background-color: #E09E50;
     color: white;
 }
