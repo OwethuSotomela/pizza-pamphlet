@@ -146,6 +146,7 @@ caption {
 .inputPrice{
     margin-top: 1vh;
     width: 99%;
+    text-align: center;
 }
 
 #teleport{

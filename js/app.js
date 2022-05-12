@@ -28,7 +28,7 @@ document.addEventListener('alpine:init', () => {
 
                 setTimeout(() => {
                     this.feedback = '';
-                }, 3000);
+                }, 5000);
             },
             orders: [
                 {
