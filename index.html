@@ -23,9 +23,6 @@
         <!-- add cart  -->
 
         <div class="cart">
-            <!-- <h3>Shopping Cart</h3> -->
-            <img src="shopping-cart.png" alt="">
-
             <table class="myCart">
                 <caption>Shopping Cart</caption>
                 <template x-for="order in orders">
@@ -55,7 +52,7 @@
                     <div x-data="{userInput: ''}" x-show="show">
                         <div class='pay'>
                             <div class='nav'>
-                                <img src="./images/ic1.webp" class="ic" alt="">
+                                <img src="./images/pi2.png" class="ic" alt="">
                                 <h3>Pay</h3>
                             </div>
                             <hr />
@@ -63,8 +60,8 @@
                         <div class="payments">
                             <span x-data="{paymentDetails: 'Enter an amount to pay: R'}" x-text="paymentDetails"></span>
                             <input x-model="userInput" type="number" class="inputPrice">
+                            <span x-data="{feedback: success, error}" x-text="feedback" class="feedback"></span>
                             <button @click="makePayment(userInput)">Checkout</button>
-                            <span x-data="{feedback: success, error}" x-text="feedback"></span>
                         </div>
                     </div>
                 </template>
@@ -107,6 +104,7 @@
                     7890
                 </div>
             </div>
+
         </div>
 </body>
 

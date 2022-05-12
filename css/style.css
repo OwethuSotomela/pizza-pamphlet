@@ -62,8 +62,9 @@ h1 {
 
 .footer {
     display: flex;
-    border: 5px solid #2D3E4E;
-    border-radius: 15px;
+    /* border: 5px solid #2D3E4E; */
+    /* border-radius: 15px; */
+    margin-top: 2vh;
 }
 
 .footer div {
@@ -71,6 +72,7 @@ h1 {
     /* margin-top: 1em; */
     padding: 1em;
     background-color: white;
+    width: 100%;
 }
 
 
@@ -153,6 +155,7 @@ caption {
 .ic{
     width: 3em;
     height: 3em;
+    padding-top: 1vh;
 }
 .nav{
     display: flex;
@@ -165,4 +168,7 @@ caption {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+}
+.feedback{
+    padding-top: 3vh;
 }
