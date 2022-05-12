@@ -137,6 +137,32 @@ caption {
     color: white;
 }
 
+.makePayment{
+    margin-bottom: 5vh;
+    margin-left: 90vh;
+}
 .inputPrice{
-    
+    margin-top: 1vh;
+    width: 99%;
+}
+
+#teleport{
+    width: 100%;
+    background-color: #F5F5F5;
+}
+.ic{
+    width: 3em;
+    height: 3em;
+}
+.nav{
+    display: flex;
+    margin-top: 1em;
+    justify-content: center;
+}
+
+.payments{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
 }

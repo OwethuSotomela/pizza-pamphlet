@@ -18,6 +18,8 @@
             <h1>Perfect Pizza</h1>
         </div>
 
+        <div id="teleport"></div>
+
         <!-- add cart  -->
 
         <div class="cart">
@@ -39,19 +41,37 @@
                 </template>
 
                 <!-- My total & Checkout-->
-
                 <tr>
                     <td><strong>Total price</strong></td>
                     <td><span class="totalPrice" x-text="getTotal().toFixed(2)"></span></td>
-                </tr> 
+                </tr>
 
             </table>
 
-            <div x-data="{userInput: ''}">
-                <input x-model="userInput" type="text" class="inputPrice">            
-                <button @click="makePayment(userInput)">Checkout</button>
+            <div x-data="{ show: false }" class="makePayment">
+                <button @click="show=!show">Make Payment</button>
+
+                <template x-teleport="#teleport">
+                    <div x-data="{userInput: ''}" x-show="show">
+                        <div class='pay'>
+                            <div class='nav'>
+                                <img src="./images/ic1.webp" class="ic" alt="">
+                                <h3>Pay</h3>
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="payments">
+                            <span x-data="{paymentDetails: 'Enter an amount to pay: R'}" x-text="paymentDetails"></span>
+                            <input x-model="userInput" type="number" class="inputPrice">
+                            <button @click="makePayment(userInput)">Checkout</button>
+                            <span x-data="{feedback: success, error}" x-text="feedback"></span>
+                        </div>
+                    </div>
+                </template>
+
             </div>
-            
+            <!-- </div> -->
+
             <!-- end here  -->
 
             <!-- close cart  -->
