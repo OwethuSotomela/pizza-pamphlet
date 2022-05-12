@@ -15,17 +15,20 @@ document.addEventListener('alpine:init', () => {
             ,
             error: 'Insufficient funds'
             ,
+            feedback: ''
+            ,
+
             makePayment(price) {
                 var getMyTotal = this.getTotal();
                 if (price < getMyTotal) {
-                    // alert( "Insufficient funds")
-                    return this.error
-    
+                    this.feedback = this.error
                 } else {
-                    // alert("Payment successfull")
-                    this.success
-                    
+                    this.feedback = this.success
                 }
+
+                setTimeout(() => {
+                    this.feedback = '';
+                }, 3000);
             },
             orders: [
                 {
