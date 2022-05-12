@@ -19,7 +19,7 @@
         </div>
 
         <!-- add cart  -->
-   
+
         <div class="cart">
             <!-- <h3>Shopping Cart</h3> -->
             <img src="shopping-cart.png" alt="">
@@ -38,48 +38,56 @@
                     </tr>
                 </template>
 
+                <!-- My total & Checkout-->
+
                 <tr>
                     <td><strong>Total price</strong></td>
                     <td><span class="totalPrice" x-text="getTotal().toFixed(2)"></span></td>
-                </tr>
+                </tr> 
+
             </table>
-        </div>
 
-        <!-- close cart  -->
+            <div x-data="{userInput: ''}">
+                <input x-model="userInput" type="text" class="inputPrice">            
+                <button @click="makePayment(userInput)">Checkout</button>
+            </div>
+            
+            <!-- end here  -->
 
-        <div class="specials">
+            <!-- close cart  -->
+            <div class="specials">
 
-            <template x-for="order in orders">
-                <div :class="order.size">
-                    <img src="images/pi2.jpeg" alt="">
-                    <h2 x-text="order.name"></h2>
-                    <h3 x-text="order.price"></h3>
-                    <i x-text="order.description"></i>
-                    <h4 x-text="order.qty"></h4>
-                    <button @click="orderPizza(order)">order</button>
+                <template x-for="order in orders">
+                    <div :class="order.size">
+                        <img src="images/pi2.jpeg" alt="">
+                        <h2 x-text="order.name"></h2>
+                        <h3 x-text="order.price"></h3>
+                        <i x-text="order.description"></i>
+                        <h4 x-text="order.qty"></h4>
+                        <button @click="orderPizza(order)">order</button>
+                    </div>
+                </template>
+
+            </div>
+
+            <div class="footer">
+                <div class="contact">
+                    <strong>Contact us at:</strong>
+                    (021)-541-1000
+
+                    <strong>twitter /fb /insta </strong> @perfectpizza
                 </div>
-            </template>
-
-        </div>
-
-        <div class="footer">
-            <div class="contact">
-                <strong>Contact us at:</strong>
-                (021)-541-1000
-
-                <strong>twitter /fb /insta </strong> @perfectpizza
-            </div>
-            <div class="address">
-                Pizza Plaza
-                <br>
-                Dough Road
-                <br>
-                Base Town
-                <br>
-                7890
+                <div class="address">
+                    Pizza Plaza
+                    <br>
+                    Dough Road
+                    <br>
+                    Base Town
+                    <br>
+                    7890
+                </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
