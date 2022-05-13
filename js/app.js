@@ -5,6 +5,9 @@ document.addEventListener('alpine:init', () => {
                 console.log(this.orders[0].subTotal())
             },
             open: false,
+            show() {
+                return this.getTotal() > 0;
+            },
             orderPizza(pizza) {
                 pizza.add()
             },
