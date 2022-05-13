@@ -7,7 +7,6 @@ body {
 
 h1 {
     color: #f2f2f2;
-    /* border: 2px solid #E09E50; */
 }
 
 .small {
@@ -39,7 +38,6 @@ h1 {
 
 .specials div {
     flex: 1;
-    /* border: 1px solid lightgrey; */
     margin: 0em;
     padding: 1em;
     margin-right: 2em;
@@ -62,14 +60,11 @@ h1 {
 
 .footer {
     display: flex;
-    /* border: 5px solid #2D3E4E; */
-    /* border-radius: 15px; */
     margin-top: 2vh;
 }
 
 .footer div {
     flex: 1;
-    /* margin-top: 1em; */
     padding: 1em;
     background-color: white;
     width: 100%;
