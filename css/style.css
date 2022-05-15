@@ -1,11 +1,11 @@
 body {
     background-color: white;
     font-family: arial, sans-serif;
-    /* background-color: #8CBDB9; */
     font-size: 0.75em;
 }
 
 h1 {
+    padding-top: 5vh;
     color: #2D3E4E;
     font-style: oblique;
     text-shadow:  2px 2px 5px #2D3E4E;
@@ -15,7 +15,6 @@ h1 {
     background-color: white;
     border: 5px solid #2D3E4E;
     text-align: center;
-
 }
 
 .medium {
@@ -90,7 +89,7 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 90%;
-    margin-right: 2em;
+    /* margin-right: 2em; */
     margin-left: 2em;
     margin-top: 3vh;
     margin-bottom: 3vh;
@@ -148,7 +147,7 @@ caption {
     border-bottom-right-radius: 1em;
 }
 .inputPrice{
-    margin-top: 1vh;
+    margin-top: 1em;
     text-align: center;
 }
 
@@ -173,6 +172,7 @@ caption {
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    align-items: center;
 }
 .feedback{
     padding-top: 3vh;
@@ -183,4 +183,18 @@ caption {
     border-top-left-radius: 1em;
     border-bottom-right-radius: 1em;
     box-shadow: 0 20px 25px 0 rgba(0,0,0,1), 0 6px 20px 0 rgba(0,0,0,1);
+}
+.controlBtn{
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    font-size: 17px;
+    width: 3rem;
+}
+.checkoutBtn{
+    border-top-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    font-size: 17px;
+    width: 15rem;
+    background-color: #04AA6D;
+    justify-content: center;
 }

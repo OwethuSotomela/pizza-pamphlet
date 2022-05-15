@@ -30,8 +30,8 @@
                         <td><span class="smallTotalPrice" x-text="'R' + order.subTotal().toFixed(2)"></span></td>
                         <td><span class="smallTotalPrice" x-text="order.qty"></span></td>
                         <td>
-                            <button @click="order.add()">+</button>
-                            <button @click="order.minus()">-</button>
+                            <button @click="order.add()" class="controlBtn">+</button>
+                            <button @click="order.minus()" class="controlBtn">-</button>
                         </td>
                     </tr>
                 </template>
@@ -63,7 +63,7 @@
                             <span x-data="{paymentDetails: 'Enter an amount to pay: R'}" x-text="paymentDetails"></span>
                             <input x-model="userInput" type="number" class="inputPrice">
                             <span x-text="feedback" class="feedback"></span>
-                            <button @click="makePayment(userInput)">Checkout</button>
+                            <button @click="makePayment(userInput)" class="checkoutBtn">Checkout</button>
                         </div>
                     </div>
                 </template>
