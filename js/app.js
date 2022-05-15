@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
             },
             success: 'Successful Purchase'
             ,
-            error: 'Insufficient funds' 
+            error: 'Insufficient funds'
             ,
             feedback: ''
             ,
@@ -25,6 +25,7 @@ document.addEventListener('alpine:init', () => {
                 var getMyTotal = this.getTotal();
                 if (price < getMyTotal) {
                     this.feedback = this.error
+
                 } else {
                     this.feedback = this.success
                 }
