@@ -47,7 +47,7 @@
             <!-- close cart  -->
 
             <div x-data="{ show: false }" class="makePayment">
-                <button @click="show=!show">Make Payment</button>
+                <button @click="show=!show" class="paymentBtn">Make Payment</button>
 
                 <template x-teleport="#teleport">
                     <div x-data="{userInput: ''}" x-show="show">
@@ -82,7 +82,7 @@
                     <h3 x-text="'R' + order.price"></h3>
                     <i x-text="order.description"></i>
                     <h4 x-text="order.qty"></h4>
-                    <button @click="orderPizza(order)">order</button>
+                    <button @click="orderPizza(order)" class="orderBtn">Order</button>
                 </div>
             </template>
 
