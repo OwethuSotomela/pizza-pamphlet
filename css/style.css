@@ -52,15 +52,17 @@ h1 {
 
 .small img {
     width: 7em;
+    border-top-left-radius: 2em;
 }
 
 .medium img {
     width: 9em;
+    border-top-left-radius: 2em;
 }
 
 .large img {
     width: 11em;
-
+    border-top-left-radius: 2em;
 }
 
 .footer {
