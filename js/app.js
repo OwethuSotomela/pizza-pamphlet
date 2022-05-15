@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
             },
             success: 'Successful Purchase'
             ,
-            error: 'Insufficient funds'
+            error: 'Insufficient funds' 
             ,
             feedback: ''
             ,
