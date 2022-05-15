@@ -20,16 +20,13 @@ document.addEventListener('alpine:init', () => {
             ,
             feedback: ''
             ,
-
             makePayment(price) {
                 var getMyTotal = this.getTotal();
                 if (price < getMyTotal) {
                     this.feedback = this.error
-
                 } else {
                     this.feedback = this.success
                 }
-
                 setTimeout(() => {
                     this.feedback = '';
                 }, 5000);
