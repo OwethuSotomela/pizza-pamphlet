@@ -14,103 +14,123 @@
 
 <body>
     <div class="container" x-data="pizzas">
-        <div class="col-12">
-            <h1>Perfect Pizza</h1>
-        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- <div class="col-12"> -->
+                <h1>Perfect Pizza</h1>
+                <!-- </div> -->
 
-        <div id="teleport"></div>
+                <main>
+                    <div id="teleport"></div>
 
-        <!-- add cart  -->
-        <div class="cart" x-show="show()">
-            <table class="myCart">
-                <caption>Shopping Cart
-                    <img src="./images/sc4.jpeg" class="sCart">
-                </caption>
-                <template x-for="order in orders">
-                    <tr>
-                        <td><b x-text="order.size">ee</b> <strong> pizzas total:</strong></td>
-                        <td><span class="smallTotalPrice" x-text="'R' + order.subTotal().toFixed(2)"></span></td>
-                        <td><span class="smallTotalPrice" x-text="order.qty"></span></td>
-                        <td>
-                            <button @click="order.add()" class="controlBtn">+</button>
-                            <button @click="order.minus()" class="controlBtn">-</button>
-                        </td>
-                    </tr>
-                </template>
+                    <!-- add cart  -->
+                    <div class="cart" x-show="show()">
+                        <table class="myCart">
+                            <caption>Shopping Cart</caption>
+                            <tr>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Qty</th>
+                                <th>Control</th>
+                            </tr>
+                            <template x-for="order in orders">
+                                <tr>
+                                    <td><b x-text="order.size">ee</b> <strong> pizzas total:</strong></td>
+                                    <td><span class="smallTotalPrice" x-text="'R' + order.subTotal().toFixed(2)"></span>
+                                    </td>
+                                    <td><span class="smallTotalPrice" x-text="order.qty"></span></td>
+                                    <td>
+                                        <button @click="order.add()" class="controlBtn">+</button>
+                                        <button @click="order.minus()" class="controlBtn">-</button>
+                                    </td>
+                                </tr>
+                            </template>
 
-                <!-- My total & Checkout-->
-                <tr>
-                    <td><strong>Total price</strong></td>
-                    <td><span class="totalPrice" x-text="'R' + getTotal().toFixed(2)"></span></td>
-                </tr>
+                            <!-- My total & Checkout-->
+                            <tr class="trTotal">
+                                <td><strong>Total price</strong></td>
+                                <td><span class="totalPrice" x-text="'R' + getTotal().toFixed(2)"></span></td>
+                            </tr>
 
-            </table>
+                        </table>
 
-            <!-- close cart  -->
+                        <!-- close cart  -->
 
-            <div x-data="{ show: false }" class="makePayment">
-                <button @click="show=!show" class="paymentBtn">Make Payment</button>
+                        <div x-data="{ show: false }" class="makePayment">
+                            <button @click="show=!show" class="paymentBtn">Make Payment</button>
 
-                <template x-teleport="#teleport">
-                    <div x-data="{userInput: ''}" x-show="show">
-                        <div class='pay'>
-                            <div class='nav'>
-                                <img src="./images/pi2.png" class="ic" alt="">
-                                <h3>Pay</h3>
-                            </div>
-                            <hr />
-                        </div>
+                            <template x-teleport="#teleport">
+                                <div x-data="{userInput: ''}" x-show="show">
+                                    <div class='pay'>
+                                        <div class='nav'>
+                                            <!-- <img src="./images/pi2.png" class="ic" alt=""> -->
+                                            <h3>Pay</h3>
+                                        </div>
+                                        <hr />
+                                    </div>
 
-                        <div class="payments">
-                            <span x-data="{paymentDetails: 'Enter an amount to pay: R'}" x-text="paymentDetails"></span>
-                            <input x-model="userInput" type="number" class="inputPrice">
-                            <div x-data="{flip:false}" class="aboutFeedback">
-                                <span x-text="feedback" :class="flip ? 'green' : 'red'"></span>
-                            </div>
-                            <button @click="makePayment(userInput)" class="checkoutBtn">Checkout</button>
+                                    <div class="payments">
+                                        <span x-data="{paymentDetails: 'Enter an amount to pay: R'}"
+                                            x-text="paymentDetails" class="inputPriceSpan"></span>
+                                        <input x-model="userInput" type="number" class="inputPrice">
+                                        <div x-data="{flip:false}" class="aboutFeedback">
+                                            <span x-text="feedback" :class="flip ? 'green' : 'red'"></span>
+                                        </div>
+                                        <button @click="makePayment(userInput)" class="checkoutBtn">Checkout</button>
+                                    </div>
+                                </div>
+                            </template>
+
                         </div>
                     </div>
-                </template>
+
+                    <!-- end here  -->
+
+                    <section>
+                        <div class="specials">
+
+                            <template x-for="order in orders">
+                                <div :class="order.size">
+                                    <img src="images/pi2.jpeg" alt="">
+                                    <h2 x-text="order.name"></h2>
+                                    <h3 x-text="'R' + order.price"></h3>
+                                    <i x-text="order.description"></i>
+                                    <h4 x-text="order.qty"></h4>
+                                    <button @click="orderPizza(order)" class="orderBtn">Order</button>
+                                </div>
+                            </template>
+
+                        </div>
+                    </section>
+
+                    <!-- <section>
+
+                        <div class="footer">
+                            <div class="contact">
+                                <strong>Contact us at:</strong>
+                                (021)-541-1000
+
+                                <strong>twitter /fb /insta </strong> @perfectpizza
+                            </div>
+                            <div class="address">
+                                Pizza Plaza
+                                <br>
+                                Dough Road
+                                <br>
+                                Base Town
+                                <br>
+                                7890
+                            </div>
+                        </div>
+
+                    </section> -->
+
+                </main>
 
             </div>
         </div>
-
-        <!-- end here  -->
-
-        <div class="specials">
-
-            <template x-for="order in orders">
-                <div :class="order.size">
-                    <img src="images/pi2.jpeg" alt="">
-                    <h2 x-text="order.name"></h2>
-                    <h3 x-text="'R' + order.price"></h3>
-                    <i x-text="order.description"></i>
-                    <h4 x-text="order.qty"></h4>
-                    <button @click="orderPizza(order)" class="orderBtn">Order</button>
-                </div>
-            </template>
-
-        </div>
-
-        <div class="footer">
-            <div class="contact">
-                <strong>Contact us at:</strong>
-                (021)-541-1000
-
-                <strong>twitter /fb /insta </strong> @perfectpizza
-            </div>
-            <div class="address">
-                Pizza Plaza
-                <br>
-                Dough Road
-                <br>
-                Base Town
-                <br>
-                7890
-            </div>
-        </div>
-
     </div>
+
 </body>
 
 </html>
