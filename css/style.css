@@ -28,9 +28,7 @@ h1 {
     margin-right: 1em;
     margin-left: 1em;
     border-top-left-radius: 3em;
-    /* background-color: #04AA6D; */
     border: 5px solid #2D3E4E;
-    /* height: 9em; */
 }
 
 .small img {
@@ -60,7 +58,6 @@ h1 {
     width: 100%;
 }
 
-
 @media (min-width: 768px) {
 
     .specials {
@@ -77,24 +74,29 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
-  }
-  
-  .myCart td, .myCart th {
+}
+
+.myCart td,
+.myCart th {
     border: 1px solid #ddd;
     padding: 8px;
-  }
-  
-  .myCart tr:nth-child(even){background-color: #f2f2f2;}
-  
-  .myCart tr:hover {background-color: #ddd;}
-  
-  .myCart th {
+}
+
+.myCart tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.myCart tr:hover {
+    background-color: #ddd;
+}
+
+.myCart th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
     background-color: #04AA6D;
     color: white;
-  }
+}
 
 button {
     background-color: #17252A;
@@ -112,18 +114,25 @@ caption {
     border: 5px solid #2D3E4E;
     text-shadow: 2px 2px 5px #2D3E4E;
     border-top-left-radius: 4em;
-    /* box-shadow: 0 20px 25px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1); */
 }
-.inputPriceSpan{
+
+.inputPriceSpan {
     padding: 10px;
 }
 
 .paymentBtn {
     margin-bottom: 4em;
-    margin-top: -4em;
-    margin-left: 55em;
+    margin-top: -12em;
+    margin-left: 60em;
     border-top-left-radius: 1em;
     border-bottom-right-radius: 1em;
+}
+
+@media (max-width: 500px) {
+    .paymentBtn {
+        margin-left: 14em;
+        background-color: #04AA6D;
+    }
 }
 
 .inputPrice {
@@ -135,12 +144,6 @@ caption {
     width: 100%;
     background-color: #DDDDDD;
 }
-
-/* .ic {
-    width: 3em;
-    height: 3em;
-    padding-top: 1vh;
-} */
 
 .nav {
     display: flex;
@@ -164,7 +167,6 @@ caption {
 
 .orderBtn {
     width: 5rem;
-    /* margin-bottom: 5rem; */
     border-top-left-radius: 1em;
     border-bottom-right-radius: 1em;
     box-shadow: 0 20px 25px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);

@@ -14,7 +14,7 @@ document.addEventListener('alpine:init', () => {
             getTotal() {
                 return _.sumBy(this.orders, o => o.subTotal())
             },
-            success: 'Successful Purchase'
+            success: 'Successful Purchase' 
             ,
             error: 'Insufficient funds'
             ,
@@ -22,10 +22,12 @@ document.addEventListener('alpine:init', () => {
             ,
             makePayment(price) {
                 var getMyTotal = this.getTotal();
+                console.log(getMyTotal)
+                console.log(price)
                 if (price < getMyTotal) {
-                    this.feedback = this.error
+                    this.feedback = this.error  + ` you're ${price - getMyTotal} short`;
                 } else {
-                    this.feedback = this.success
+                    this.feedback = this.success  + ` your change is + ${price - getMyTotal}`;
                 }
                 setTimeout(() => {
                     this.feedback = '';
