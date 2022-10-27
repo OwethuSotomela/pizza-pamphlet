@@ -23,22 +23,17 @@ document.addEventListener('alpine:init', () => {
             makePayment(price) {
                 var getMyTotal = this.getTotal();
 
-                console.log(price)
-                console.log(getMyTotal)
-
                 price = parseFloat(price).toFixed(2);
-
-                console.log(price)
 
                 let balance = price - getMyTotal;
 
                 balance = parseFloat(balance).toFixed(2)
 
-                console.log(balance)
-
                 if (price < getMyTotal) {
+                    this.addRedColor()
                     this.feedback = this.error + ` you're ${'R' + balance} short`;
                 } else {
+                    this.addGreenColor()
                     this.feedback = this.success + ` your change is ${'R' + balance}`;
                 }
                 setTimeout(() => {
@@ -95,9 +90,22 @@ document.addEventListener('alpine:init', () => {
                     }
                 },
             ],
-            getOrder() {
-
-            }
+            addRedColor() {
+                aboutFeedback.classList.add("red");
+            },
+            addGreenColor() {
+                aboutFeedback.classList.add("green");
+            },
+            // addColor(price) {
+            //     alert(price)
+            //     let getMyTotal = this.getTotal()
+            //     alert(getMyTotal)
+            //     if (price < getMyTotal) {
+            //         aboutFeedback.classList.add("red")
+            //     } else {
+            //         aboutFeedback.classList.add("green")
+            //     }
+            // }
         }
     })
 })

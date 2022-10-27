@@ -71,7 +71,7 @@
                                             x-text="paymentDetails" class="inputPriceSpan"></span>
                                         <input x-model="userInput" type="number" class="inputPrice">
                                         <div x-data="{flip:false}" class="aboutFeedback">
-                                            <span x-text="feedback" :class="flip ? 'green' : 'red'"></span>
+                                            <span x-text="feedback" id="aboutFeedback" :class="flip ? 'green' : 'red'"></span>
                                         </div>
                                         <button @click="makePayment(userInput)" class="checkoutBtn">Checkout</button>
                                     </div>
