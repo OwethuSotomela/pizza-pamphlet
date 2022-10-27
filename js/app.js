@@ -37,9 +37,9 @@ document.addEventListener('alpine:init', () => {
                 console.log(balance)
 
                 if (price < getMyTotal) {
-                    this.feedback = this.error + ` you're ${balance} short`;
+                    this.feedback = this.error + ` you're ${'R' + balance} short`;
                 } else {
-                    this.feedback = this.success + ` your change is ${balance}`;
+                    this.feedback = this.success + ` your change is ${'R' + balance}`;
                 }
                 setTimeout(() => {
                     this.feedback = '';
