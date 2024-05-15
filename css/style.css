@@ -126,6 +126,20 @@ h1 {
     background-color: #17252A;
 }
 
+.checkoutBtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.checkoutBtn:hover {
+    background-color: #f01e2c;
+}
+
 .makePayment {
     margin-top: 20px;
     text-align: center;
