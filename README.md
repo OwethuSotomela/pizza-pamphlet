@@ -9,4 +9,4 @@ Key Features:
 <ul>Make secure payments with ease.</ul>
 <ul>Receive real-time updates on payment status.</ul>
 <ul>Manage funds efficiently with insights on shortfall or excess.</ul>
-<ul>Enjoy your Perfect Pizza experience!</ul>
+Enjoy your Perfect Pizza experience!
