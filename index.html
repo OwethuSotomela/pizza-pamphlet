@@ -1,76 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" x-data="pizzaApp()" :class="{'dark': isDarkMode}">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfect Pizza</title>
-  
-  <!-- External Styles & Icons -->
+  <title>Pizza Pamphlet</title>
   <link rel="stylesheet" href="./css/style.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- AlpineJS (lightweight framework) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <!-- Lodash & Handlebars (Optional, included only if used) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
 </head>
-<body class="font-sans text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-200">
-
-  <header class="header">
-    <h1>🍕 Perfect Pizza</h1>
-    <button @click="toggleDarkMode" class="theme-toggle">
-      <i class="bi" :class="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
-    </button>
-  </header>
-
-  <main class="container">
-    <section class="menu">
-      <h2>Build Your Pizza</h2>
-      <div>
-        <label>Size:</label>
-        <select x-model="selectedSize">
-          <option value="small">Small</option>
-          <option value="medium">Medium</option>
-          <option value="large">Large</option>
-        </select>
-      </div>
-      <div>
-        <label>Toppings:</label>
-        <template x-for="topping in availableToppings" :key="topping">
-          <label><input type="checkbox" :value="topping" x-model="selectedToppings"> <span x-text="topping"></span></label>
-        </template>
-      </div>
-      <button @click="addToCart" class="btn-primary">Add to Cart</button>
-    </section>
-
-    <section class="cart">
-      <h2>Your Cart</h2>
-      <template x-if="cart.length === 0">
-        <p>Your cart is empty.</p>
-      </template>
-      <ul>
-        <template x-for="(item, index) in cart" :key="index">
-          <li>
-            <span x-text="itemSummary(item)"></span>
-            <button @click="removeFromCart(index)">❌</button>
-          </li>
-        </template>
-      </ul>
-      <p>Total: R<span x-text="cartTotal().toFixed(2)"></span></p>
-      <div>
-        <label>Pay:</label>
-        <input type="number" x-model="payment" min="0" step="0.01" />
-      </div>
-      <button @click="checkout" class="btn-success">Checkout</button>
-      <p x-text="message" class="message"></p>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <p>&copy; 2025 SotoPrime 🍕</p>
-  </footer>
-  <script src="./js/app.js"></script>
+<body>
+  <pizza-app></pizza-app>
+  <script src="./js/app.js" defer></script>
 </body>
 </html>
