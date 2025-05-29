@@ -31,6 +31,7 @@ class PizzaApp extends HTMLElement {
         h1 {
           text-align: center;
           margin-bottom: 2rem;
+          color: #d35400;
         }
         .pizzas {
           display: grid;
@@ -50,24 +51,28 @@ class PizzaApp extends HTMLElement {
           transform: scale(1.02);
         }
         .pizza img {
-          max-width: 100%;
+          width: 100%;
+          max-width: 180px;
           height: auto;
           border-radius: 8px;
-          margin-bottom: 1rem;
+          margin: 0 auto 1rem;
+          display: block;
         }
         button {
           margin-top: 0.5rem;
           padding: 0.5rem 1.2rem;
-          background: #ff6600;
+          background: #e67e22;
           color: white;
           border: none;
           border-radius: 5px;
           font-weight: bold;
           cursor: pointer;
+          transition: background 0.2s;
         }
         button:hover {
-          background: #e65400;
+          background: #d35400;
         }
+        /* Fixed footer cart */
         .cart {
           position: fixed;
           bottom: 0;
@@ -75,9 +80,12 @@ class PizzaApp extends HTMLElement {
           width: 100%;
           background: #f9f9f9;
           border-top: 2px solid #ccc;
-          padding: 1rem;
+          padding: 1rem 1.5rem;
           box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
           z-index: 999;
+          font-family: 'Segoe UI', sans-serif;
+          max-height: 160px;
+          overflow-y: auto;
         }
         .cart-item {
           display: flex;
@@ -89,12 +97,46 @@ class PizzaApp extends HTMLElement {
           font-weight: bold;
           text-align: right;
           margin-top: 0.5rem;
+          font-size: 1.1rem;
+        }
+        /* Checkout button */
+        .checkout-btn {
+          margin-top: 0.8rem;
+          width: 100%;
+          padding: 0.75rem;
+          background: #27ae60;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          font-size: 1.1rem;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background 0.3s;
+        }
+        .checkout-btn:hover {
+          background: #219150;
+        }
+        /* Scrollbar for cart if too tall */
+        .cart::-webkit-scrollbar {
+          height: 6px;
+        }
+        .cart::-webkit-scrollbar-thumb {
+          background: #ccc;
+          border-radius: 3px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
           .pizza img {
-            height: 120px;
-            object-fit: cover;
+            max-width: 140px;
+          }
+          .cart {
+            max-height: 200px;
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+          }
+          button {
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
           }
         }
       </style>
@@ -125,26 +167,62 @@ class PizzaApp extends HTMLElement {
             </div>
           `).join('')}
           <div class="total">Total: R${total.toFixed(2)}</div>
+          <button class="checkout-btn">Checkout</button>
         </div>
       ` : ''}
     `;
 
     this.shadowRoot.innerHTML = style + html;
 
-    // Button logic
-    this.shadowRoot.querySelectorAll('button').forEach(btn => {
+    // Order button logic
+    this.shadowRoot.querySelectorAll('button[data-index]').forEach(btn => {
       btn.addEventListener('click', e => {
         const index = +e.target.getAttribute('data-index');
         this.pizzas[index].qty++;
         this.render();
       });
     });
+
+    // Checkout button logic
+    const checkoutBtn = this.shadowRoot.querySelector('.checkout-btn');
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener('click', () => {
+        alert(`Thank you for your order!\nTotal: R${total.toFixed(2)}`);
+        // Clear cart after checkout
+        this.pizzas.forEach(p => p.qty = 0);
+        this.render();
+      });
+    }
   }
 }
 
 class HeroBanner extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
+      <style>
+        .banner {
+          background: linear-gradient(to right, #ff5f6d, #ffc371);
+          color: white;
+          padding: 4rem 2rem;
+          text-align: center;
+          font-family: 'Segoe UI', sans-serif;
+        }
+        .banner-content h1 {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+        .banner-content p {
+          font-size: 1.2rem;
+        }
+        @media (max-width: 600px) {
+          .banner-content h1 {
+            font-size: 1.8rem;
+          }
+          .banner-content p {
+            font-size: 1rem;
+          }
+        }
+      </style>
       <section class="banner">
         <div class="banner-content">
           <h1>Perfect Pizza</h1>
@@ -156,5 +234,4 @@ class HeroBanner extends HTMLElement {
 }
 
 customElements.define('hero-banner', HeroBanner);
-
 customElements.define('pizza-app', PizzaApp);
