@@ -1,186 +1,69 @@
-/* Reset CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
 }
 
-h1 {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 20px;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ff6347;
+  color: white;
+  padding: 1rem 2rem;
 }
 
-.col-12 {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.specials {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.menu, .cart {
+  flex: 1 1 45%;
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 10px;
 }
 
-.pizza {
-    flex: 0 0 30%;
-    margin-bottom: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
+.menu select, .menu input[type="checkbox"], .cart input {
+  margin: 0.5rem 0;
 }
 
-.pizza img {
-    max-width: 100%;
-    border-radius: 10px;
+.btn-primary, .btn-success {
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.pizza h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+.btn-primary {
+  background-color: #007bff;
 }
 
-.pizza h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #04AA6D;
+.btn-success {
+  background-color: #28a745;
 }
 
-.pizza i {
-    color: #777;
-    font-style: italic;
+.footer {
+  text-align: center;
+  padding: 1rem;
+  background: #eee;
 }
 
-.pizza h4 {
-    margin-bottom: 10px;
+.message {
+  margin-top: 1rem;
+  font-weight: bold;
 }
 
-.orderBtn {
-    background-color: #17252A;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.orderBtn:hover {
-    background-color: #04AA6D;
-}
-
-.myCart {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.myCart th,
-.myCart td {
-    padding: 10px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
-.myCart caption {
-    padding: 20px;
-    background-color: #2D3E4E;
-    color: #fff;
-    font-size: 20px;
-    font-weight: bold;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.trTotal {
-    background-color: #f2f2f2;
-}
-
-.trTotal td {
-    font-weight: bold;
-}
-
-.paymentBtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 20px;
-}
-
-.paymentBtn:hover {
-    background-color: #17252A;
-}
-
-.checkoutBtn {
-    background-color: #04AA6D;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.checkoutBtn:hover {
-    background-color: #f01e2c;
-}
-
-.makePayment {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.inputPriceSpan {
-    display: block;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.inputPrice {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.aboutFeedback {
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.red {
-    color: red;
-}
-
-.green {
-    color: #04AA6D;
-}
-
-@media (max-width: 992px) {
-    .pizza {
-        flex: 0 0 45%;
-    }
-}
-
-@media (max-width: 768px) {
-    .pizza {
-        flex: 0 0 100%;
-    }
+.theme-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
 }
