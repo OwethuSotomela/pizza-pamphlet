@@ -1,145 +1,115 @@
 class PizzaApp extends HTMLElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.state = {
-      orders: [
-        {
-          size: 'small',
-          name: 'Small Pizza',
-          price: 48.99,
-          qty: 0,
-          description: 'Small pizza with 3 toppings.',
-        },
-        {
-          size: 'medium',
-          name: 'Medium Pizza',
-          price: 78.99,
-          qty: 0,
-          description: 'Medium pizza with 3 toppings.',
-        },
-        {
-          size: 'large',
-          name: 'Large Pizza',
-          price: 114.99,
-          qty: 0,
-          description: 'Large pizza with 3 toppings.',
-        }
-      ],
-      feedback: '',
-    };
+    this.attachShadow({ mode: 'open' });
+    this.pizzas = [
+      { size: 'small', name: 'Small Pizza', price: 48.99, qty: 0 },
+      { size: 'medium', name: 'Medium Pizza', price: 78.99, qty: 0 },
+      { size: 'large', name: 'Large Pizza', price: 114.99, qty: 0 }
+    ];
   }
 
   connectedCallback() {
     this.render();
-    this.bindEvents();
-  }
-
-  bindEvents() {
-    this.shadowRoot.querySelectorAll('.orderBtn').forEach((btn, i) => {
-      btn.addEventListener('click', () => {
-        this.state.orders[i].qty++;
-        this.render();
-      });
-    });
-
-    this.shadowRoot.querySelectorAll('.addQty').forEach((btn, i) => {
-      btn.addEventListener('click', () => {
-        this.state.orders[i].qty++;
-        this.render();
-      });
-    });
-
-    this.shadowRoot.querySelectorAll('.subQty').forEach((btn, i) => {
-      btn.addEventListener('click', () => {
-        if (this.state.orders[i].qty > 0) {
-          this.state.orders[i].qty--;
-          this.render();
-        }
-      });
-    });
-
-    const payBtn = this.shadowRoot.querySelector('.checkoutBtn');
-    if (payBtn) {
-      payBtn.addEventListener('click', () => {
-        const input = parseFloat(this.shadowRoot.querySelector('.inputPrice').value);
-        const total = this.getTotal();
-        const feedbackEl = this.shadowRoot.querySelector('.aboutFeedback');
-        let message = '';
-        if (input >= total) {
-          message = `✅ Payment successful. Change: R${(input - total).toFixed(2)}`;
-          feedbackEl.className = 'aboutFeedback green';
-        } else {
-          message = `❌ Insufficient funds. Short: R${(total - input).toFixed(2)}`;
-          feedbackEl.className = 'aboutFeedback red';
-        }
-        this.state.feedback = message;
-        this.render();
-      });
-    }
-  }
-
-  getTotal() {
-    return this.state.orders.reduce((sum, o) => sum + o.qty * o.price, 0);
   }
 
   render() {
-    const cartRows = this.state.orders
-      .filter(order => order.qty > 0)
-      .map(order => `
-        <tr>
-          <td>${order.size}</td>
-          <td>R${(order.qty * order.price).toFixed(2)}</td>
-          <td>${order.qty}</td>
-          <td>
-            <button class="addQty">+</button>
-            <button class="subQty">-</button>
-          </td>
-        </tr>
-      `).join('');
+    const total = this.pizzas.reduce((sum, p) => sum + p.qty * p.price, 0);
+    const style = `
+      <style>
+        * { box-sizing: border-box; }
+        .container {
+          max-width: 900px;
+          margin: auto;
+          padding: 1rem;
+          font-family: Arial, sans-serif;
+        }
+        h1 { text-align: center; }
+        .pizzas {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          justify-content: space-around;
+        }
+        .pizza {
+          flex: 1 1 250px;
+          background: #fff;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 1rem;
+          text-align: center;
+          box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        .pizza h3 { margin: 0.5rem 0; }
+        button {
+          margin-top: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: #04AA6D;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+        button:hover {
+          background: #02865b;
+        }
+        .cart {
+          margin-top: 2rem;
+        }
+        .cart-item {
+          display: flex;
+          justify-content: space-between;
+          margin: 0.5rem 0;
+          border-bottom: 1px solid #eee;
+        }
+        .total {
+          font-weight: bold;
+          text-align: right;
+          margin-top: 1rem;
+        }
 
-    const pizzaCards = this.state.orders.map(order => `
-      <div class="pizza ${order.size}">
-        <img src="images/pi2.jpeg" alt="${order.name}" />
-        <h2>${order.name}</h2>
-        <h3>R${order.price}</h3>
-        <i>${order.description}</i>
-        <h4>Qty: ${order.qty}</h4>
-        <button class="orderBtn">Order</button>
-      </div>
-    `).join('');
+        @media (max-width: 600px) {
+          .pizzas {
+            flex-direction: column;
+            align-items: center;
+          }
+        }
+      </style>
+    `;
 
-    const total = this.getTotal().toFixed(2);
-
-    this.shadowRoot.innerHTML = `
-      <link rel="stylesheet" href="../css/style.css" />
+    const html = `
       <div class="container">
         <h1>Perfect Pizza</h1>
-
-        <div class="specials">${pizzaCards}</div>
-
-        ${total > 0 ? `
+        <div class="pizzas">
+          ${this.pizzas.map((p, i) => `
+            <div class="pizza">
+              <h2>${p.name}</h2>
+              <h3>R${p.price.toFixed(2)}</h3>
+              <p>Qty: ${p.qty}</p>
+              <button data-index="${i}">Order</button>
+            </div>
+          `).join('')}
+        </div>
         <div class="cart">
-          <table class="myCart">
-            <caption>Shopping Cart</caption>
-            <tr><th>Size</th><th>Price</th><th>Qty</th><th>Control</th></tr>
-            ${cartRows}
-            <tr class="trTotal">
-              <td><strong>Total</strong></td>
-              <td colspan="3">R${total}</td>
-            </tr>
-          </table>
-
-          <div class="makePayment">
-            <span class="inputPriceSpan">Enter an amount to pay: R</span>
-            <input type="number" class="inputPrice" />
-            <div class="aboutFeedback">${this.state.feedback}</div>
-            <button class="checkoutBtn">Checkout</button>
-          </div>
-        </div>` : ''}
+          ${this.pizzas.filter(p => p.qty > 0).map(p => `
+            <div class="cart-item">
+              <span>${p.name} x ${p.qty}</span>
+              <span>R${(p.qty * p.price).toFixed(2)}</span>
+            </div>
+          `).join('')}
+          ${total > 0 ? `<div class="total">Total: R${total.toFixed(2)}</div>` : ''}
+        </div>
       </div>
     `;
-    this.bindEvents();
+
+    this.shadowRoot.innerHTML = style + html;
+    this.shadowRoot.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const index = +e.target.getAttribute('data-index');
+        this.pizzas[index].qty++;
+        this.render();
+      });
+    });
   }
 }
 
