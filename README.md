@@ -25,7 +25,7 @@ Perfect Pizza is a modern, responsive web application that allows users to custo
 ## Getting Started
 
 1. Clone the repository:
-git clone https://github.com/yourusername/perfect-pizza-app.git
+git clone https://github.com/owethusotomela/perfect-pizza-app.git
 
 2. Navigate to the project directory:
 cd perfect-pizza-app
