@@ -7,10 +7,31 @@ class PizzaApp extends HTMLElement {
       { size: 'medium', name: 'Medium Pizza', price: 78.99, qty: 0, image: 'https://i.imgur.com/zpKxf1F.png' },
       { size: 'large', name: 'Large Pizza', price: 114.99, qty: 0, image: 'https://i.imgur.com/ptJYgUP.png' }
     ];
+    this.payment = '';
+    this.message = '';
   }
 
   connectedCallback() {
     this.render();
+  }
+
+  handlePaymentInput(e) {
+    this.payment = e.target.value;
+    this.calculateMessage();
+    this.render();
+  }
+
+  calculateMessage() {
+    const total = this.pizzas.reduce((sum, p) => sum + p.qty * p.price, 0);
+    const paymentNum = parseFloat(this.payment);
+
+    if (isNaN(paymentNum) || paymentNum === 0) {
+      this.message = '';
+    } else if (paymentNum < total) {
+      this.message = `Your money is short by R${(total - paymentNum).toFixed(2)}`;
+    } else {
+      this.message = `Here's your change: R${(paymentNum - total).toFixed(2)}`;
+    }
   }
 
   render() {
@@ -26,12 +47,12 @@ class PizzaApp extends HTMLElement {
           max-width: 1000px;
           margin: 0 auto;
           padding: 1rem;
+          padding-bottom: 200px; /* Space for fixed cart so buttons aren't hidden */
           font-family: 'Segoe UI', sans-serif;
         }
         h1 {
           text-align: center;
           margin-bottom: 2rem;
-          color: #d35400;
         }
         .pizzas {
           display: grid;
@@ -51,28 +72,24 @@ class PizzaApp extends HTMLElement {
           transform: scale(1.02);
         }
         .pizza img {
-          width: 100%;
-          max-width: 180px;
+          max-width: 100%;
           height: auto;
           border-radius: 8px;
-          margin: 0 auto 1rem;
-          display: block;
+          margin-bottom: 1rem;
         }
         button {
           margin-top: 0.5rem;
           padding: 0.5rem 1.2rem;
-          background: #e67e22;
+          background: #ff6600;
           color: white;
           border: none;
           border-radius: 5px;
           font-weight: bold;
           cursor: pointer;
-          transition: background 0.2s;
         }
         button:hover {
-          background: #d35400;
+          background: #e65400;
         }
-        /* Fixed footer cart */
         .cart {
           position: fixed;
           bottom: 0;
@@ -80,11 +97,10 @@ class PizzaApp extends HTMLElement {
           width: 100%;
           background: #f9f9f9;
           border-top: 2px solid #ccc;
-          padding: 1rem 1.5rem;
+          padding: 1rem;
           box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
           z-index: 999;
-          font-family: 'Segoe UI', sans-serif;
-          max-height: 160px;
+          max-height: 220px;
           overflow-y: auto;
         }
         .cart-item {
@@ -97,46 +113,42 @@ class PizzaApp extends HTMLElement {
           font-weight: bold;
           text-align: right;
           margin-top: 0.5rem;
-          font-size: 1.1rem;
         }
-        /* Checkout button */
-        .checkout-btn {
-          margin-top: 0.8rem;
-          width: 100%;
-          padding: 0.75rem;
-          background: #27ae60;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          font-size: 1.1rem;
+        .payment-section {
+          margin-top: 1rem;
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.75rem;
+          justify-content: flex-end;
+        }
+        input.payment-input {
+          padding: 0.5rem;
+          font-size: 1rem;
+          width: 150px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          text-align: right;
+        }
+        .payment-message {
           font-weight: bold;
-          cursor: pointer;
-          transition: background 0.3s;
+          font-size: 0.95rem;
+          min-width: 220px;
+          color: #333;
         }
-        .checkout-btn:hover {
-          background: #219150;
+        .payment-message.negative {
+          color: #c0392b;
         }
-        /* Scrollbar for cart if too tall */
-        .cart::-webkit-scrollbar {
-          height: 6px;
+        .payment-message.positive {
+          color: #27ae60;
         }
-        .cart::-webkit-scrollbar-thumb {
-          background: #ccc;
-          border-radius: 3px;
-        }
-
-        @media (max-width: 600px) {
+        @media (max-width: 480px) {
           .pizza img {
-            max-width: 140px;
+            height: 120px;
+            object-fit: cover;
           }
-          .cart {
-            max-height: 200px;
-            padding: 0.8rem 1rem;
-            font-size: 0.9rem;
-          }
-          button {
-            padding: 0.4rem 1rem;
-            font-size: 0.9rem;
+          .payment-section {
+            justify-content: center;
           }
         }
       </style>
@@ -167,15 +179,27 @@ class PizzaApp extends HTMLElement {
             </div>
           `).join('')}
           <div class="total">Total: R${total.toFixed(2)}</div>
-          <button class="checkout-btn">Checkout</button>
+          <div class="payment-section">
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              class="payment-input"
+              placeholder="Enter amount paid"
+              value="${this.payment}"
+            />
+            <div class="payment-message ${this.message.includes('short') ? 'negative' : 'positive'}">
+              ${this.message}
+            </div>
+          </div>
         </div>
       ` : ''}
     `;
 
     this.shadowRoot.innerHTML = style + html;
 
-    // Order button logic
-    this.shadowRoot.querySelectorAll('button[data-index]').forEach(btn => {
+    // Button logic
+    this.shadowRoot.querySelectorAll('button').forEach(btn => {
       btn.addEventListener('click', e => {
         const index = +e.target.getAttribute('data-index');
         this.pizzas[index].qty++;
@@ -183,15 +207,10 @@ class PizzaApp extends HTMLElement {
       });
     });
 
-    // Checkout button logic
-    const checkoutBtn = this.shadowRoot.querySelector('.checkout-btn');
-    if (checkoutBtn) {
-      checkoutBtn.addEventListener('click', () => {
-        alert(`Thank you for your order!\nTotal: R${total.toFixed(2)}`);
-        // Clear cart after checkout
-        this.pizzas.forEach(p => p.qty = 0);
-        this.render();
-      });
+    // Payment input logic
+    const paymentInput = this.shadowRoot.querySelector('.payment-input');
+    if (paymentInput) {
+      paymentInput.addEventListener('input', e => this.handlePaymentInput(e));
     }
   }
 }
@@ -199,30 +218,6 @@ class PizzaApp extends HTMLElement {
 class HeroBanner extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
-      <style>
-        .banner {
-          background: linear-gradient(to right, #ff5f6d, #ffc371);
-          color: white;
-          padding: 4rem 2rem;
-          text-align: center;
-          font-family: 'Segoe UI', sans-serif;
-        }
-        .banner-content h1 {
-          font-size: 2.5rem;
-          margin-bottom: 1rem;
-        }
-        .banner-content p {
-          font-size: 1.2rem;
-        }
-        @media (max-width: 600px) {
-          .banner-content h1 {
-            font-size: 1.8rem;
-          }
-          .banner-content p {
-            font-size: 1rem;
-          }
-        }
-      </style>
       <section class="banner">
         <div class="banner-content">
           <h1>Perfect Pizza</h1>
