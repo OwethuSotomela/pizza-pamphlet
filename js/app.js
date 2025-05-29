@@ -142,4 +142,19 @@ class PizzaApp extends HTMLElement {
   }
 }
 
+class HeroBanner extends HTMLElement {
+  connectedCallback() {
+    this.innerHTML = `
+      <section class="banner">
+        <div class="banner-content">
+          <h1>Perfect Pizza</h1>
+          <p>Order. Pay. Enjoy Pizza — Fast & Easy.</p>
+        </div>
+      </section>
+    `;
+  }
+}
+
+customElements.define('hero-banner', HeroBanner);
+
 customElements.define('pizza-app', PizzaApp);
