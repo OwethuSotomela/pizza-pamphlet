@@ -1,111 +1,62 @@
-document.addEventListener('alpine:init', () => {
-    Alpine.data('pizzas', () => {
-        return {
-            init() {
-                console.log(this.orders[0].subTotal())
-            },
-            open: false,
-            show() {
-                return this.getTotal() > 0;
-            },
-            orderPizza(pizza) {
-                pizza.add()
-            },
-            getTotal() {
-                return _.sumBy(this.orders, o => o.subTotal())
-            },
-            success: 'Successful Purchase'
-            ,
-            error: 'Insufficient funds'
-            ,
-            feedback: ''
-            ,
-            makePayment(price) {
-                var getMyTotal = this.getTotal();
+function pizzaApp() {
+  return {
+    selectedSize: 'medium',
+    selectedToppings: [],
+    availableToppings: ['Cheese', 'Pepperoni', 'Mushrooms', 'Olives', 'Pineapple'],
+    cart: [],
+    payment: '',
+    message: '',
+    isDarkMode: false,
 
-                price = parseFloat(price).toFixed(2);
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+    },
 
-                let balance = price - getMyTotal;
+    addToCart() {
+      if (!this.selectedSize || this.selectedToppings.length === 0) {
+        this.message = 'Please select size and at least one topping.';
+        return;
+      }
 
-                balance = parseFloat(balance).toFixed(2)
+      this.cart.push({
+        size: this.selectedSize,
+        toppings: [...this.selectedToppings],
+        price: this.calculatePrice(this.selectedSize, this.selectedToppings.length)
+      });
 
-                if (price < getMyTotal) {
-                    this.addRedColor()
-                    this.feedback = this.error + ` you're ${'R' + balance} short`;
-                } else {
-                    this.addGreenColor()
-                    this.feedback = this.success + ` your change is ${'R' + balance}`;
-                }
-                setTimeout(() => {
-                    this.feedback = '';
-                }, 5000);
-            },
-            orders: [
-                {
-                    size: 'small',
-                    name: 'Small Pizza',
-                    price: 48.99,
-                    qty: 0,
-                    description: 'Small pizza with 3 toppings. 1 topping. 3 or less other toppings.',
-                    subTotal() {
-                        return Number(this.price) * Number(this.qty)
-                    },
-                    add() {
-                        this.qty++
-                    },
-                    minus() {
-                        this.qty--
-                    },
-                },
-                {
-                    size: 'medium',
-                    name: 'Medium Pizza',
-                    price: 78.99,
-                    qty: 0,
-                    description: 'Medium margerita pizza with 3 toppings max. 2 oe less meat topping. 3 or less other toppings',
-                    subTotal() {
-                        return Number(this.price) * Number(this.qty)
-                    },
-                    add() {
-                        this.qty++
-                    },
-                    minus() {
-                        this.qty--
-                    }
-                },
-                {
-                    size: 'large',
-                    name: 'Large Pizza',
-                    price: 114.99,
-                    qty: 0,
-                    description: 'Large margerita pizza with 3 toppings max. 3 meat toppingds max. 3 or less other toppings.',
-                    subTotal() {
-                        return Number(this.price) * Number(this.qty)
-                    },
-                    add() {
-                        this.qty++
-                    },
-                    minus() {
-                        this.qty--
-                    }
-                },
-            ],
-            addRedColor() {
-                aboutFeedback.classList.add("red");
-            },
-            addGreenColor() {
-                aboutFeedback.classList.add("green");
-            },
-            // addColor(price) {
-            //     alert(price)
-            //     let getMyTotal = this.getTotal()
-            //     alert(getMyTotal)
-            //     if (price < getMyTotal) {
-            //         aboutFeedback.classList.add("red")
-            //     } else {
-            //         aboutFeedback.classList.add("green")
-            //     }
-            // }
-        }
-    })
-})
+      this.selectedToppings = [];
+      this.message = 'Pizza added to cart!';
+    },
+
+    removeFromCart(index) {
+      this.cart.splice(index, 1);
+    },
+
+    itemSummary(item) {
+      return `${item.size.toUpperCase()} - ${item.toppings.join(', ')} (R${item.price.toFixed(2)})`;
+    },
+
+    calculatePrice(size, toppingCount) {
+      const basePrices = { small: 40, medium: 60, large: 85 };
+      const toppingPrice = 7;
+      return basePrices[size] + toppingCount * toppingPrice;
+    },
+
+    cartTotal() {
+      return this.cart.reduce((sum, item) => sum + item.price, 0);
+    },
+
+    checkout() {
+      const total = this.cartTotal();
+      if (this.payment < total) {
+        this.message = `Insufficient payment. You need R${(total - this.payment).toFixed(2)} more.`;
+        return;
+      }
+
+      const change = this.payment - total;
+      this.message = `Payment successful! Your change: R${change.toFixed(2)}`;
+      this.cart = [];
+      this.payment = '';
+    }
+  };
+}
