@@ -8,30 +8,38 @@ class PizzaApp extends HTMLElement {
       { size: 'large', name: 'Large Pizza', price: 114.99, qty: 0, image: 'https://i.imgur.com/ptJYgUP.png' }
     ];
     this.payment = '';
-    this.message = '';
+    this.checkoutMessage = '';
   }
 
   connectedCallback() {
     this.render();
   }
 
-  handlePaymentInput(e) {
-    this.payment = e.target.value;
-    this.calculateMessage();
+  handleOrder(index) {
+    this.pizzas[index].qty++;
     this.render();
   }
 
-  calculateMessage() {
-    const total = this.pizzas.reduce((sum, p) => sum + p.qty * p.price, 0);
-    const paymentNum = parseFloat(this.payment);
+  handlePaymentInput(e) {
+    this.payment = e.target.value;
+    // Don't render here to avoid input jumping
+  }
 
-    if (isNaN(paymentNum) || paymentNum === 0) {
-      this.message = '';
-    } else if (paymentNum < total) {
-      this.message = `Your money is short by R${(total - paymentNum).toFixed(2)}`;
+  handlePay() {
+    const total = this.pizzas.reduce((sum, p) => sum + p.qty * p.price, 0);
+    const paymentValue = parseFloat(this.payment);
+
+    if (isNaN(paymentValue)) {
+      this.checkoutMessage = "Please enter a valid amount.";
+    } else if (paymentValue < total) {
+      const short = (total - paymentValue).toFixed(2);
+      this.checkoutMessage = `R${short} short.`;
     } else {
-      this.message = `Here's your change: R${(paymentNum - total).toFixed(2)}`;
+      const change = (paymentValue - total).toFixed(2);
+      this.checkoutMessage = `Thank you! Your change is R${change}.`;
     }
+
+    this.render();
   }
 
   render() {
@@ -40,20 +48,14 @@ class PizzaApp extends HTMLElement {
 
     const style = `
       <style>
-        * {
-          box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         .container {
           max-width: 1000px;
           margin: 0 auto;
           padding: 1rem;
-          padding-bottom: 200px; /* Space for fixed cart so buttons aren't hidden */
           font-family: 'Segoe UI', sans-serif;
         }
-        h1 {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
+        h1 { text-align: center; margin: 2rem 0 1rem; }
         .pizzas {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -66,10 +68,6 @@ class PizzaApp extends HTMLElement {
           padding: 1rem;
           text-align: center;
           box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
-          transition: transform 0.2s;
-        }
-        .pizza:hover {
-          transform: scale(1.02);
         }
         .pizza img {
           max-width: 100%;
@@ -100,8 +98,6 @@ class PizzaApp extends HTMLElement {
           padding: 1rem;
           box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
           z-index: 999;
-          max-height: 220px;
-          overflow-y: auto;
         }
         .cart-item {
           display: flex;
@@ -114,41 +110,46 @@ class PizzaApp extends HTMLElement {
           text-align: right;
           margin-top: 0.5rem;
         }
-        .payment-section {
-          margin-top: 1rem;
+        .checkout {
+          margin-top: 0.5rem;
           display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 0.75rem;
-          justify-content: flex-end;
+          flex-direction: column;
+          gap: 0.5rem;
         }
-        input.payment-input {
+        input[type="number"] {
+          padding: 0.4rem;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+        .checkout button {
+          background: #27ae60;
+          color: white;
+          border: none;
           padding: 0.5rem;
           font-size: 1rem;
-          width: 150px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-          text-align: right;
+          border-radius: 4px;
+          cursor: pointer;
         }
-        .payment-message {
+        .checkout button:hover {
+          background: #219150;
+        }
+        .message {
           font-weight: bold;
-          font-size: 0.95rem;
-          min-width: 220px;
           color: #333;
         }
-        .payment-message.negative {
-          color: #c0392b;
-        }
-        .payment-message.positive {
-          color: #27ae60;
-        }
+
         @media (max-width: 480px) {
           .pizza img {
             height: 120px;
             object-fit: cover;
           }
-          .payment-section {
-            justify-content: center;
+          .cart {
+            font-size: 0.9rem;
+          }
+          .checkout input,
+          .checkout button {
+            font-size: 0.9rem;
           }
         }
       </style>
@@ -179,18 +180,10 @@ class PizzaApp extends HTMLElement {
             </div>
           `).join('')}
           <div class="total">Total: R${total.toFixed(2)}</div>
-          <div class="payment-section">
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              class="payment-input"
-              placeholder="Enter amount paid"
-              value="${this.payment}"
-            />
-            <div class="payment-message ${this.message.includes('short') ? 'negative' : 'positive'}">
-              ${this.message}
-            </div>
+          <div class="checkout">
+            <input type="number" placeholder="Enter amount paid" value="${this.payment}">
+            <button id="pay-btn">Pay</button>
+            <div class="message">${this.checkoutMessage}</div>
           </div>
         </div>
       ` : ''}
@@ -198,19 +191,22 @@ class PizzaApp extends HTMLElement {
 
     this.shadowRoot.innerHTML = style + html;
 
-    // Button logic
-    this.shadowRoot.querySelectorAll('button').forEach(btn => {
+    // Event Listeners
+    this.shadowRoot.querySelectorAll('button[data-index]').forEach(btn => {
       btn.addEventListener('click', e => {
         const index = +e.target.getAttribute('data-index');
-        this.pizzas[index].qty++;
-        this.render();
+        this.handleOrder(index);
       });
     });
 
-    // Payment input logic
-    const paymentInput = this.shadowRoot.querySelector('.payment-input');
-    if (paymentInput) {
-      paymentInput.addEventListener('input', e => this.handlePaymentInput(e));
+    const input = this.shadowRoot.querySelector('input[type="number"]');
+    if (input) {
+      input.addEventListener('input', e => this.handlePaymentInput(e));
+    }
+
+    const payBtn = this.shadowRoot.querySelector('#pay-btn');
+    if (payBtn) {
+      payBtn.addEventListener('click', () => this.handlePay());
     }
   }
 }
