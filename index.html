@@ -1,114 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" x-data="pizzaApp()" :class="{'dark': isDarkMode}">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <title>Pizza-Pamphlet</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-    <script src="./js/app.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfect Pizza</title>
+  
+  <!-- External Styles & Icons -->
+  <link rel="stylesheet" href="./css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- AlpineJS (lightweight framework) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Lodash & Handlebars (Optional, included only if used) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
 </head>
+<body class="font-sans text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-200">
 
-<body>
+  <header class="header">
+    <h1>🍕 Perfect Pizza</h1>
+    <button @click="toggleDarkMode" class="theme-toggle">
+      <i class="bi" :class="isDarkMode ? 'bi-sun' : 'bi-moon'"></i>
+    </button>
+  </header>
 
-    <div class="container" x-data="pizzas">
-        <div class="row">
-            <div class="col-12">
-                <h1>Perfect Pizza</h1>
+  <main class="container">
+    <section class="menu">
+      <h2>Build Your Pizza</h2>
+      <div>
+        <label>Size:</label>
+        <select x-model="selectedSize">
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+        </select>
+      </div>
+      <div>
+        <label>Toppings:</label>
+        <template x-for="topping in availableToppings" :key="topping">
+          <label><input type="checkbox" :value="topping" x-model="selectedToppings"> <span x-text="topping"></span></label>
+        </template>
+      </div>
+      <button @click="addToCart" class="btn-primary">Add to Cart</button>
+    </section>
 
-                <main>
-                    <div id="teleport"></div>
+    <section class="cart">
+      <h2>Your Cart</h2>
+      <template x-if="cart.length === 0">
+        <p>Your cart is empty.</p>
+      </template>
+      <ul>
+        <template x-for="(item, index) in cart" :key="index">
+          <li>
+            <span x-text="itemSummary(item)"></span>
+            <button @click="removeFromCart(index)">❌</button>
+          </li>
+        </template>
+      </ul>
+      <p>Total: R<span x-text="cartTotal().toFixed(2)"></span></p>
+      <div>
+        <label>Pay:</label>
+        <input type="number" x-model="payment" min="0" step="0.01" />
+      </div>
+      <button @click="checkout" class="btn-success">Checkout</button>
+      <p x-text="message" class="message"></p>
+    </section>
+  </main>
 
-                    <!-- add cart  -->
-                    <div class="cart" x-show="show()">
-                        <table class="myCart">
-                            <caption>Shopping Cart</caption>
-                            <tr>
-                                <th>Size</th>
-                                <th>Price</th>
-                                <th>Qty</th>
-                                <th>Control</th>
-                            </tr>
-                            <template x-for="order in orders">
-                                <tr>
-                                    <td><b x-text="order.size">ee</b> <strong> pizzas total:</strong></td>
-                                    <td><span class="smallTotalPrice" x-text="'R' + order.subTotal().toFixed(2)"></span>
-                                    </td>
-                                    <td><span class="smallTotalPrice" x-text="order.qty"></span></td>
-                                    <td>
-                                        <button @click="order.add()" class="controlBtn">+</button>
-                                        <button @click="order.minus()" class="controlBtn">-</button>
-                                    </td>
-                                </tr>
-                            </template>
-
-                            <!-- My total & Checkout-->
-                            <tr class="trTotal">
-                                <td><strong>Total price</strong></td>
-                                <td><span class="totalPrice" x-text="'R' + getTotal().toFixed(2)"></span></td>
-                            </tr>
-
-                        </table>
-
-                        <!-- close cart  -->
-
-                        <div x-data="{ show: false }" class="makePayment">
-                            <button @click="show=!show" class="paymentBtn">Make Payment</button>
-
-                            <template x-teleport="#teleport">
-                                <div x-data="{userInput: ''}" x-show="show">
-                                    <div class='pay'>
-                                        <div class='nav'>
-                                            <h3>Pay</h3>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="payments">
-                                        <span x-data="{paymentDetails: 'Enter an amount to pay: R'}"
-                                            x-text="paymentDetails" class="inputPriceSpan"></span>
-                                        <input x-model="userInput" type="number" class="inputPrice">
-                                        <div x-data="{flip:false}" class="aboutFeedback">
-                                            <span x-text="feedback" id="aboutFeedback"
-                                                :class="flip ? 'green' : 'red'"></span>
-                                        </div>
-                                        <button @click="makePayment(userInput)" class="checkoutBtn"><span><i class="bi bi-bag-check-fill"></i></span>Checkout</button>
-                                    </div>
-                                </div>
-                            </template>
-
-                        </div>
-                    </div>
-
-                    <!-- end here  -->
-
-                    <section>
-                        <div class="specials">
-
-                            <template x-for="order in orders">
-                                <div :class="order.size" class="pizza">
-                                    <img src="images/pi2.jpeg" alt="">
-                                    <h2 x-text="order.name"></h2>
-                                    <h3 x-text="'R' + order.price"></h3>
-                                    <i x-text="order.description"></i>
-                                    <h4 x-text="order.qty"></h4>
-                                    <button @click="orderPizza(order)" class="orderBtn">Order</button>
-                                </div>
-                            </template>
-
-                        </div>
-                    </section>
-
-                </main>
-
-            </div>
-        </div>
-    </div>
-
+  <footer class="footer">
+    <p>&copy; 2025 SotoPrime 🍕</p>
+  </footer>
+  <script src="./js/app.js"></script>
 </body>
-
 </html>
